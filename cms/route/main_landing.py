@@ -12,7 +12,7 @@ bp = Blueprint("main_landing", __name__)
 @bp.route("/")
 @login_required
 def index():
-    return render_template("components/showContent.html")
+    return render_template("components/main_landing.html")
     
 @bp.before_request
 def before_request():

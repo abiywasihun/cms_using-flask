@@ -1605,7 +1605,7 @@ header .form-inline {
   left: 40%; }
 
 .twt-feed {
-  -webkit-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
   color: #FFFFFF;
   padding: 40px 10px 10px;
   position: relative;
