@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: CMS
+Version: 1.0.0
+Summary: Content Managment System using Python.
+Home-page: https://github.com/abiywasihun/
+Maintainer: Pallets
+Maintainer-email: abiywasihun0921@gmail.com
+License: BSD-3-Clause
+Description: UNKNOWN
+Platform: UNKNOWN
+Description-Content-Type: text/x-rst
+Provides-Extra: test

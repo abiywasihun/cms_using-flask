@@ -1,0 +1,6 @@
+include LICENSE.rst
+graft cms/static
+graft cmd/templates
+graft cms/route
+graft tests
+global-exclude *.pyc
