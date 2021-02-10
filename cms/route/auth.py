@@ -8,6 +8,7 @@ from flask import render_template
 from flask import request
 from flask import session
 from flask import url_for
+from flask import jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import logout_user, login_user
 from werkzeug.security import check_password_hash
@@ -20,17 +21,7 @@ bp = Blueprint("auth", __name__)
 
 #login_manager.login_view = 'login'
 bcrypt = Bcrypt(app)
-def login_required(view):
-    """View decorator that redirects anonymous users to the login page."""
 
-    @functools.wraps(view) 
-    def wrapped_view(**kwargs):
-        if g.user is None:
-            return redirect(url_for("auth.login"))
- 
-        return view(**kwargs)
-
-    return wrapped_view
 
 @bp.route("/login",methods=("GET", "POST"))
 def login():
@@ -120,3 +111,21 @@ def signup():
     
     else:
         return render_template("auth/signUp.html")
+
+
+#retrive json response
+@bp.route("/get/all/user")
+def getall():
+    try:
+        users=User.query.all()
+        return  jsonify([e.serialize() for e in users])
+    except Exception as e:
+	    return(str(e))
+
+@bp.route("/get/user/<id_>")
+def get_by_id(id_):
+    try:
+        user=User.query.filter_by(id=id_).first()
+        return jsonify(user.serialize())
+    except Exception as e:
+	    return(str(e))

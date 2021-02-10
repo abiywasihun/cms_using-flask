@@ -4,6 +4,7 @@ from flask import g
 from flask import redirect
 from flask import render_template
 from flask import request
+from flask import jsonify
 from flask import url_for
 from cms.models.Content import Content
 from cms.models.Users import User
@@ -67,3 +68,20 @@ def delete(id):
         return redirect(url_for('content.show'))
     else:
         return render_template("components/deleteContent.html")
+
+#retrive json response
+@bp.route("/get/all/content")
+def getall():
+    try:
+        contents=Content.query.all()
+        return  jsonify([e.serialize() for e in contents])
+    except Exception as e:
+	    return(str(e))
+
+@bp.route("/get/content/<id_>")
+def get_by_id(id_):
+    try:
+        content=Content.query.filter_by(id=id_).first()
+        return jsonify(content.serialize())
+    except Exception as e:
+	    return(str(e))

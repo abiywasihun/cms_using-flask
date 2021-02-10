@@ -5,6 +5,7 @@ from flask import redirect
 from flask import render_template
 from flask import request
 from flask import url_for
+from flask import jsonify
 from cms import db
 from flask import session
 from flask_login import current_user
@@ -66,3 +67,20 @@ def delete(id):
         return redirect(url_for('column.show'))
     else:
         return render_template("components/deleteColumn.html")
+
+#retrive json response
+@bp.route("/get/all/column")
+def getall():
+    try:
+        columns=Column.query.all()
+        return  jsonify([e.serialize() for e in columns])
+    except Exception as e:
+	    return(str(e))
+
+@bp.route("/get/column/<id_>")
+def get_by_id(id_):
+    try:
+        column=Column.query.filter_by(id=id_).first()
+        return jsonify(column.serialize())
+    except Exception as e:
+	    return(str(e))
