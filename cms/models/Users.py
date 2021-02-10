@@ -52,3 +52,11 @@ class User(db.Model):
         # both already exists
         else:
             return -3
+    
+    def serialize(self):
+        return {
+            'id': self.id, 
+            'username': self.username,
+            'email': self.email,
+            'registered_on':self.registered_on,
+        }
