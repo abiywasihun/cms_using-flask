@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,19 +13,20 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
-    
+
     <!-- Style -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
 
-    <title>Login #7</title>
-  </head>
-  <body>
+    <title>CMS</title>
+</head>
 
-    {% block body %}
-        {% endblock %}
-        <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+<body>
+
+    {% block body %} {% endblock %}
+    <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/popper.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
-  </body>
+</body>
+
 </html>
