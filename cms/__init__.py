@@ -12,16 +12,42 @@ db = SQLAlchemy(app)
 #bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'route.auth.login'
+login_manager.login_view = 'auth.login'
 from cms.models.Column import Column
 from cms.models.Content import Content
 from cms.models.Users import User
-from cms.route import content, column, main_landing, auth
+from cms.models.Events import Events
+from cms.models.AddtionalContent import AddtionalContent
+from cms.models.Contact import Contact
+from cms.models.EdtionBudget import EdtionBudget
+from cms.models.MyTask import MyTask
+from cms.models.opEd import OpEd
+from cms.models.Photo import Photo
+from cms.models.Resource import Resource
+from cms.models.SocialMediaExcerpt import SocialMediaExcerpt
+from cms.models.SocialMediaSchedule import SocialMediaSchedule
+from cms.models.ThisWeekMinute import ThisWeekMinute
+from cms.route import content, column, main_landing, auth, addtionalContent,contact,events,myTask,opEd,photo
+
+from cms.route import resource, socialMediaExcerpt,socialMediaSchedule,storyProposal,thisWeekMinute,edtionBudget,websiteContent
 
 app.register_blueprint(main_landing.bp)
 app.register_blueprint(content.bp)
 app.register_blueprint(column.bp)
 app.register_blueprint(auth.bp)
+app.register_blueprint(addtionalContent.bp)
+app.register_blueprint(contact.bp)
+app.register_blueprint(edtionBudget.bp)
+app.register_blueprint(events.bp)
+app.register_blueprint(myTask.bp)
+app.register_blueprint(opEd.bp)
+app.register_blueprint(photo.bp)
+app.register_blueprint(resource.bp)
+app.register_blueprint(socialMediaExcerpt.bp)
+app.register_blueprint(socialMediaSchedule.bp)
+app.register_blueprint(storyProposal.bp)
+app.register_blueprint(thisWeekMinute.bp)
+app.register_blueprint(websiteContent.bp)
 
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""

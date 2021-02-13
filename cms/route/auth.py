@@ -9,6 +9,7 @@ from flask import request
 from flask import session
 from flask import url_for
 from flask import jsonify
+from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import logout_user, login_user
 from werkzeug.security import check_password_hash
@@ -21,6 +22,9 @@ bp = Blueprint("auth", __name__)
 
 #login_manager.login_view = 'login'
 bcrypt = Bcrypt(app)
+
+
+
 
 
 @bp.route("/login",methods=("GET", "POST"))
