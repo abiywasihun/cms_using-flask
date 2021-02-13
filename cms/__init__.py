@@ -27,6 +27,7 @@ from cms.models.Resource import Resource
 from cms.models.SocialMediaExcerpt import SocialMediaExcerpt
 from cms.models.SocialMediaSchedule import SocialMediaSchedule
 from cms.models.ThisWeekMinute import ThisWeekMinute
+from cms.models.WebsiteContent import WebsiteContent
 from cms.route import content, column, main_landing, auth, addtionalContent,contact,events,myTask,opEd,photo
 
 from cms.route import resource, socialMediaExcerpt,socialMediaSchedule,storyProposal,thisWeekMinute,edtionBudget,websiteContent

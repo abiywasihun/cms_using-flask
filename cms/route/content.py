@@ -23,25 +23,25 @@ def show():
 @bp.route("/content/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
     if request.method == "POST":
-        contenthas = Content.query.filter_by(id=id).first()
-        if contenthas is None:
+        hascontent = Content.query.filter_by(id=id).first()
+        if hascontent is None:
             return redirect(url_for('content.show'))
         headline = request.form['headline']
         content = request.form['content']
         category = request.form['category']
         excerpt = request.form['excerpt']
-        contenthas.headline=headline
-        contenthas.content=content
-        contenthas.category=category
-        contenthas.excerpt=excerpt
-        db.session.add(contenthas)
+        hascontent.headline=headline
+        hascontent.content=content
+        hascontent.category=category
+        hascontent.excerpt=excerpt
+        db.session.add(hascontent)
         db.session.commit()
         flash("Content Updated Succesfully")
         return redirect(url_for('content.show'))
 
     else:
-        contenthas = Content.query.filter_by(id=id).first()
-        return render_template("components/editContent.html",contents=contenthas)
+        hascontent = Content.query.filter_by(id=id).first()
+        return render_template("components/editContent.html",contents=hascontent)
 @bp.route("/content/create", methods=("GET", "POST"))
 def create():
     if request.method == "POST":
@@ -60,15 +60,11 @@ def create():
         return render_template("components/creatContent.html")
 @bp.route("/content/delete/<int:id>", methods=("GET", "POST"))
 def delete(id):
-    if request.method == "POST":
-        content=Content.query.get_or_404(id)
-        db.session.delete(content)
-        db.session.commit()
-        flash("Content Deleted Succesfully")
-        return redirect(url_for('content.show'))
-    else:
-        return render_template("components/deleteContent.html")
-
+    column=Content.query.get_or_404(id)
+    db.session.delete(column)
+    db.session.commit()
+    flash("Content Deleted Succesfully")
+    return redirect(url_for('column.show'))
 #retrive json response
 @bp.route("/get/all/content")
 def getall():

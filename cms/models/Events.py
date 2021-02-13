@@ -17,7 +17,7 @@ class Events(db.Model):
     contactMobileNum = db.Column(db.String())
     contactEmail = db.Column(db.String())
     description = db.Column(db.String())
-    createdBy = db.Column(db.Integer)
+    createdBy = db.Column(db.String())
     created_at= db.Column('created_at', db.DateTime)
 
  

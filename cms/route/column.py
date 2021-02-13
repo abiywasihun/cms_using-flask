@@ -11,7 +11,7 @@ from flask import session
 from flask_login import current_user
 from datetime import date
 from cms.models.Column import Column
-from cms.models.Users import User
+#from cms.models.Users import User
 from werkzeug.exceptions import abort
 
 bp = Blueprint("column", __name__)
@@ -23,24 +23,24 @@ def show():
 @bp.route("/column/edit/<int:id>", methods=("GET", "POST"))
 def edit(id):
     if request.method == "POST":
-        contenthas = Column.query.filter_by(id=id).first()
-        if contenthas is None:
+        hascontent = Column.query.filter_by(id=id).first()
+        if hascontent is None:
             return redirect(url_for('content.show'))
         headline = request.form['headline']
         content = request.form['content']
         category = request.form['category']
         excerpt = request.form['excerpt']
-        contenthas.headline=headline
-        contenthas.content=content
-        contenthas.category=category
-        contenthas.excerpt=excerpt
-        db.session.add(contenthas)
+        hascontent.headline=headline
+        hascontent.content=content
+        hascontent.category=category
+        hascontent.excerpt=excerpt
+        db.session.add(hascontent)
         db.session.commit()
         flash("Content Updated Succesfully")
         return redirect(url_for('column.show'))
     else:
-        contenthas = Column.query.filter_by(id=id).first()
-        return render_template("components/editColumn.html",columns=contenthas)
+        hascontent = Column.query.filter_by(id=id).first()
+        return render_template("components/editColumn.html",columns=hascontent)
 @bp.route("/column/create", methods=("GET", "POST"))
 def create():
     if request.method == "POST":
@@ -59,14 +59,14 @@ def create():
         return render_template("components/createColumn.html")
 @bp.route("/column/delete/<int:id>", methods=("GET", "POST"))
 def delete(id):
-    if request.method == "POST":
-        column=Column.query.get_or_404(id)
-        db.session.delete(column)
-        db.session.commit()
-        flash("Content Deleted Succesfully")
-        return redirect(url_for('column.show'))
-    else:
-        return render_template("components/deleteColumn.html")
+  #  if request.method == "POST":
+    column=Column.query.get_or_404(id)
+    db.session.delete(column)
+    db.session.commit()
+    flash("Content Deleted Succesfully")
+    return redirect(url_for('column.show'))
+    #else:
+     #   return render_template("components/deleteColumn.html")
 
 #retrive json response
 @bp.route("/get/all/column")

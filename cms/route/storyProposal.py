@@ -10,8 +10,7 @@ from cms import db
 from flask import session
 from flask_login import current_user
 from datetime import date
-from cms.models.Column import Column
-from cms.models.Users import User
+from cms.models.StoryProposal import StoryProposal
 from werkzeug.exceptions import abort
 
 bp = Blueprint("storyProposal", __name__)
@@ -23,15 +22,48 @@ def show():
 
 @bp.route("/storyProposal/edit/<int:id>", methods=("GET", "POST"))
 def edit():
+    if request.method == "POST":
+        hascontent = StoryProposal.query.filter_by(id=id).first()
+        if hascontent is None:
+            return redirect(url_for('content.show'))
+        headline = request.form['headline']
+        content = request.form['content']
+        category = request.form['category']
+        excerpt = request.form['excerpt']
+        hascontent.headline=headline
+        hascontent.content=content
+        hascontent.category=category
+        hascontent.excerpt=excerpt
+        db.session.add(hascontent)
+        db.session.commit()
+        flash("Content Updated Succesfully")
+        return redirect(url_for('storyProposal.show'))
 
-    return "edit"
+    else:
+        hascontent = StoryProposal.query.filter_by(id=id).first()
+        return render_template("components/editStoryProposal.html",contents=hascontent)
 
 @bp.route("/storyProposal/delete/<int:id>", methods=("GET", "POST"))
 def delete():
-
-    return "delete"
+    storyProposal=StoryProposal.query.get_or_404(id)
+    db.session.delete(storyProposal)
+    db.session.commit()
+    flash("Content Deleted Succesfully")
+    return redirect(url_for('storyProposal.show'))
 
 @bp.route("/storyProposal/create", methods=("GET", "POST"))
 def create():
-    
-    return "create"
+    if request.method == "POST":
+        headline = request.form['headline']
+        content = request.form['content']
+        category = request.form['category']
+        excerpt = request.form['excerpt']
+        current_user=Users.username
+        current_date = date.today() 
+        storyProposal = StoryProposal(headline, content, category,excerpt,current_date,current_user)
+        db.session.add(storyProposal)
+        db.session.commit()
+        flash("Content Created Succesfully")
+        return redirect(url_for('storyProposal.show'))
+    else:
+        return render_template("components/createstoryProposal.html")
