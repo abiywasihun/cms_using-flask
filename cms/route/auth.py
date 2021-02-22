@@ -17,10 +17,10 @@ from werkzeug.security import generate_password_hash
 from cms import db,app,login_manager
 from cms.models.Users import User
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
-
+bp = Blueprint("auth", __name__)
 class Auth(Form):
 
-    bp = Blueprint("auth", __name__)
+    
     username = TextField('username:', validators=[validators.required()])
     email = TextField('Email:', validators=[validators.required(), validators.Length(min=6, max=35)])
     password = TextField('Password:', validators=[validators.required(), validators.Length(min=3, max=35)])
