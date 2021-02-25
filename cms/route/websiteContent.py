@@ -17,26 +17,42 @@ bp = Blueprint("websiteContent", __name__)
 Users=current_user
 @bp.route("/websiteContent")
 def show():
+    websiteContent=WebsiteContent.query.all()
 
-    return render_template("components/showWebsiteContent.html")
+    return render_template("components/showWebsiteContent.html", websiteContent=websiteContent)
 
 @bp.route("/websiteContent/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = WebsiteContent.query.filter_by(id=id).first()
         if hascontent is None:
             return redirect(url_for('content.show'))
-        headline = request.form['headline']
-        content = request.form['content']
         category = request.form['category']
-        excerpt = request.form['excerpt']
-        hascontent.headline=headline
-        hascontent.content=content
+        headline = request.form['headline']
+        sub_headline = request.form['sub_headline']
+        article = request.form['article']
+        nutshell = request.form['nutshell']
+        blurb = request.form['blurb']
+        pullout = request.form['pullout']
+        author = request.form['author']
+        author_description = request.form['author_description']
+        number = request.form['number']
+        volume = request.form['volume']
+        status = request.form['status']
         hascontent.category=category
-        hascontent.excerpt=excerpt
+        hascontent.headline=headline
+        hascontent.sub_headline=sub_headline
+        hascontent.article=article
+        hascontent.nutshell=nutshell
+        hascontent.blurb=blurb
+        hascontent.pullout=pullout
+        hascontent.author=author
+        hascontent.author_description=author_description
+        hascontent.number=number
+        hascontent.volume=volume
+        hascontent.status=status
         db.session.add(hascontent)
         db.session.commit()
-        flash("Content Updated Succesfully")
         return redirect(url_for('websiteContent.show'))
 
     else:
@@ -46,7 +62,7 @@ def edit():
    
 
 @bp.route("/websiteContent/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     websiteContent=WebsiteContent.query.get_or_404(id)
     db.session.delete(websiteContent)
     db.session.commit()
@@ -56,13 +72,21 @@ def delete():
 @bp.route("/websiteContent/create", methods=("GET", "POST"))
 def create():
     if request.method == "POST":
-        headline = request.form['headline']
-        content = request.form['content']
         category = request.form['category']
-        excerpt = request.form['excerpt']
-        current_user=Users.username
-        current_date = date.today() 
-        websiteContent = WebsiteContent(headline, content, category,excerpt,current_date,current_user)
+        headline = request.form['headline']
+        sub_headline = request.form['sub_headline']
+        article = request.form['article']
+        nutshell = request.form['nutshell']
+        blurb = request.form['blurb']
+        pullout = request.form['pullout']
+        author = request.form['author']
+        author_description = request.form['author_description']
+        number = request.form['number']
+        volume = request.form['volume']
+        status = request.form['status']
+        created_by =Users.username
+        created_date = date.today() 
+        websiteContent = WebsiteContent(category, headline, sub_headline,article,nutshell,blurb,pullout,author,author_description,number,volume,status,created_by,created_date)
         db.session.add(websiteContent)
         db.session.commit()
         flash("Content Created Succesfully")

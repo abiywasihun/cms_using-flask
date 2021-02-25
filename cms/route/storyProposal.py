@@ -17,23 +17,46 @@ bp = Blueprint("storyProposal", __name__)
 Users=current_user
 @bp.route("/storyProposal")
 def show():
+    storyProposal=StoryProposal.query.all()    
 
-    return render_template("components/showStoryProposal.html")
+    return render_template("components/showStoryProposal.html",storyProposal=storyProposal)
 
 @bp.route("/storyProposal/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = StoryProposal.query.filter_by(id=id).first()
         if hascontent is None:
             return redirect(url_for('content.show'))
-        headline = request.form['headline']
-        content = request.form['content']
-        category = request.form['category']
-        excerpt = request.form['excerpt']
-        hascontent.headline=headline
-        hascontent.content=content
-        hascontent.category=category
-        hascontent.excerpt=excerpt
+        reporter = request.form['reporter']
+        number = request.form['number']
+        initialHeadline = request.form['initialHeadline']
+        possibleIssues = request.form['possibleIssues']
+        initialLead = request.form['initialLead']
+        contextOfStory = request.form['contextOfStory']
+        institutionsToVisit = request.form['institutionsToVisit']
+        listOfMaterial = request.form['listOfMaterial']
+        listOfPeople = request.form['listOfPeople']
+        listOfExpert = request.form['listOfExpert']
+        nameOfExpert = request.form['nameOfExpert']
+        suggestionMedia = request.form['suggestionMedia']
+        section = request.form['section']
+        status = request.form['status']
+        updated_at = date.today() 
+        hascontent.reporter=reporter
+        hascontent.number=number
+        hascontent.initialHeadline=initialHeadline
+        hascontent.possibleIssues=possibleIssues
+        hascontent.initialLead=initialLead
+        hascontent.contextOfStory=contextOfStory
+        hascontent.institutionsToVisit=institutionsToVisit
+        hascontent.listOfMaterial=listOfMaterial
+        hascontent.listOfPeople=listOfPeople
+        hascontent.listOfExpert=listOfExpert
+        hascontent.nameOfExpert=nameOfExpert
+        hascontent.suggestionMedia=suggestionMedia
+        hascontent.section=section
+        hascontent.status=status
+        hascontent.updated_at=updated_at
         db.session.add(hascontent)
         db.session.commit()
         flash("Content Updated Succesfully")
@@ -44,7 +67,7 @@ def edit():
         return render_template("components/editStoryProposal.html",contents=hascontent)
 
 @bp.route("/storyProposal/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     storyProposal=StoryProposal.query.get_or_404(id)
     db.session.delete(storyProposal)
     db.session.commit()
@@ -54,13 +77,25 @@ def delete():
 @bp.route("/storyProposal/create", methods=("GET", "POST"))
 def create():
     if request.method == "POST":
-        headline = request.form['headline']
-        content = request.form['content']
-        category = request.form['category']
-        excerpt = request.form['excerpt']
-        current_user=Users.username
-        current_date = date.today() 
-        storyProposal = StoryProposal(headline, content, category,excerpt,current_date,current_user)
+        reporter = request.form['reporter']
+        number = request.form['number']
+        initialHeadline = request.form['initialHeadline']
+        possibleIssues = request.form['possibleIssues']
+        initialLead = request.form['initialLead']
+        contextOfStory = request.form['contextOfStory']
+        institutionsToVisit = request.form['institutionsToVisit']
+        listOfMaterial = request.form['listOfMaterial']
+        listOfPeople = request.form['listOfPeople']
+        listOfExpert = request.form['listOfExpert']
+        nameOfExpert = request.form['nameOfExpert']
+        suggestionMedia = request.form['suggestionMedia']
+        section = request.form['section']
+        draftID =0
+        status = request.form['status']
+        updated_at = date.today() 
+        storyProposal = StoryProposal(reporter, number, initialHeadline,possibleIssues,initialLead,contextOfStory,
+                                institutionsToVisit,listOfMaterial,listOfPeople,listOfExpert,nameOfExpert,suggestionMedia,
+                                section,draftID,status,updated_at)
         db.session.add(storyProposal)
         db.session.commit()
         flash("Content Created Succesfully")

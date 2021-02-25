@@ -17,11 +17,12 @@ bp = Blueprint("socialMediaExcerpt", __name__)
 Users=current_user
 @bp.route("/socialMediaExcerpt")
 def show():
+    socialMediaEXcerpt=SocialMediaExcerpt.query.all()
 
-    return render_template("components/showSocialMediaExcerpt.html")
+    return render_template("components/showSocialMediaExcerpt.html",socialMediaEXcerpt=socialMediaEXcerpt)
 
 @bp.route("/socialMediaExcerpt/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = SocialMediaExcerpt.query.filter_by(id=id).first()
         if hascontent is None:
@@ -44,7 +45,7 @@ def edit():
         return render_template("components/editSocialMediaExcerpet.html",contents=hascontent)
 
 @bp.route("/socialMediaExcerpt/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     socialMediaExcerpt=SocialMediaExcerpt.query.get_or_404(id)
     db.session.delete(socialMediaExcerpt)
     db.session.commit()

@@ -17,11 +17,12 @@ bp = Blueprint("socialMediaSchedule", __name__)
 Users=current_user
 @bp.route("/socialMediaSchedule")
 def show():
+    socialMediaSchedule=SocialMediaSchedule.query.all()
 
-    return render_template("components/showSocialMediaSchedule.html")
+    return render_template("components/showSocialMediaSchedule.html",socialMediaSchedule=socialMediaSchedule)
 
 @bp.route("/socialMediaSchedule/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = SocialMediaSchedule.query.filter_by(id=id).first()
         if hascontent is None:
@@ -52,7 +53,7 @@ def edit():
         return render_template("components/editSocialMediaSchedule.html",contents=hascontent)
 
 @bp.route("/socialMediaSchedule/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     socialMediaSchedule=SocialMediaSchedule.query.get_or_404(id)
     db.session.delete(socialMediaSchedule)
     db.session.commit()

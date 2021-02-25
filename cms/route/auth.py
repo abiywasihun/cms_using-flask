@@ -45,34 +45,30 @@ class Auth(Form):
         password = request.form['password']
 
         
-        if form.validate():
             
             # query the user
-            registered_user = User.query.filter_by(username=username).first()
+        registered_user = User.query.filter_by(username=username).first()
 
           # check the passwords
-            if registered_user is None:
-                flash('Invalid Username')
-                return render_template('auth/signIn.html')
+        if registered_user is None:
+            flash('Invalid Username')
+            return render_template('auth/signIn.html')
 
         
-            else:
-                if Auth.bcrypt.check_password_hash(registered_user.password, password) == False:
-                   flash('Invalid Username/Password')
-                   return render_template('auth/signIn.html')
+        else:
+            if Auth.bcrypt.check_password_hash(registered_user.password, password) == False:
+                flash('Invalid Username/Password')
+                return render_template('auth/signIn.html')
             
-            remember_me = False
-            if 'remember_me' in request.form:
-               remember_me = True
+        remember_me = False
+        if 'remember_me' in request.form:
+            remember_me = True
 
         # login the user
-            login_user(registered_user, remember=remember_me)
-            g.user=registered_user
-            return redirect(url_for('main_landing.index'))
-        else:
-            flash('Error: All the form fields are required.')
-            render_template('auth/signIn.html')
-
+        login_user(registered_user, remember=remember_me)
+        g.user=registered_user
+        return redirect(url_for('main_landing.index'))
+        
        
    # else:
     #    

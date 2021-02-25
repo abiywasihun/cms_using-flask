@@ -17,11 +17,11 @@ bp = Blueprint("edtionBudget", __name__)
 Users=current_user
 @bp.route("/edtionBudget")
 def show():
-
-    return render_template("components/showEdtionBudget.html")
+    edtionBudget=EdtionBudget.query.all()
+    return render_template("components/showEdtionBudget.html",edtionBudget=edtionBudget)
 
 @bp.route("/edtionBudget/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = EdtionBudget.query.filter_by(id=id).first()
         if hascontent is None:
@@ -46,7 +46,7 @@ def edit():
         return render_template("components/editEdtionBuget.html",contents=hascontent)
 
 @bp.route("/edtionBudget/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     edtionbudeget=EdtionBudget.query.get_or_404(id)
     db.session.delete(edtionbudeget)
     db.session.commit()

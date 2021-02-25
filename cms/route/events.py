@@ -17,11 +17,12 @@ bp = Blueprint("events", __name__)
 Users=current_user
 @bp.route("/events")
 def show():
+    events=Events.query.all()
 
-    return render_template("components/showEvents.html")
+    return render_template("components/showEvents.html",events=events)
 
 @bp.route("/events/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = Events.query.filter_by(id=id).first()
         if hascontent is None:
@@ -61,7 +62,7 @@ def edit():
         return render_template("components/editEvent.html",contents=hascontent)
 
 @bp.route("/events/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
 
     event=Events.query.get_or_404(id)
     db.session.delete(event)

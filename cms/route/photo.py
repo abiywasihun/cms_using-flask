@@ -17,11 +17,12 @@ bp = Blueprint("photo", __name__)
 Users=current_user
 @bp.route("/photo")
 def show():
+    photo=Photo.query.all()
 
-    return render_template("components/showPhoto.html")
+    return render_template("components/showPhoto.html",photo=photo)
 
 @bp.route("/photo/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = Photo.query.filter_by(id=id).first()
         if hascontent is None:
@@ -52,7 +53,7 @@ def edit():
         return render_template("components/editPhoto.html",contents=hascontent)
 
 @bp.route("/photo/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     photo=Photo.query.get_or_404(id)
     db.session.delete(photo)
     db.session.commit()

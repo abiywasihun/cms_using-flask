@@ -17,11 +17,12 @@ bp = Blueprint("resource", __name__)
 Users=current_user
 @bp.route("/resource")
 def show():
+    resource=Resource.query.all()
 
-    return render_template("components/showResource.html")
+    return render_template("components/showResource.html",resource=resource)
 
 @bp.route("/resource/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = Resource.query.filter_by(id=id).first()
         if hascontent is None:
@@ -52,7 +53,7 @@ def edit():
         return render_template("components/editResourec.html",contents=hascontent)
 
 @bp.route("/resource/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     resource=Resource.query.get_or_404(id)
     db.session.delete(resource)
     db.session.commit()

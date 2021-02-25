@@ -17,11 +17,11 @@ bp = Blueprint("opEd", __name__)
 Users=current_user
 @bp.route("/opEd")
 def show():
-
-    return render_template("components/showOp-Ed.html")
+    opEd=OpEd.query.all()
+    return render_template("components/showOp-Ed.html", OpEd=opEd)
 
 @bp.route("/opEd/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = OpEd.query.filter_by(id=id).first()
         if hascontent is None:
@@ -44,7 +44,7 @@ def edit():
         return render_template("components/editOpEd.html",contents=hascontent)
 
 @bp.route("/opEd/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     opEd=OpEd.query.get_or_404(id)
     db.session.delete(opEd)
     db.session.commit()

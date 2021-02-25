@@ -17,11 +17,11 @@ bp = Blueprint("contact", __name__)
 Users=current_user
 @bp.route("/contact")
 def show():
-
-    return render_template("components/showContact.html")
+    contact=Contact.query.all()
+    return render_template("components/showContact.html",contact=contact)
 
 @bp.route("/contact/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = Contact.query.filter_by(id=id).first()
         if hascontent is None:
@@ -53,7 +53,7 @@ def edit():
         return render_template("components/editContact.html",columns=hascontent)
 
 @bp.route("/contact/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     contact=Contact.query.get_or_404(id)
     db.session.delete(contact)
     db.session.commit()

@@ -17,8 +17,8 @@ bp = Blueprint("addtionalContent", __name__)
 Users=current_user
 @bp.route("/addtionalContent")
 def show():
-
-    return render_template("components/showAddtionalContent.html")
+    addtionalContent=AddtionalContent.query.all()
+    return render_template("components/showAddtionalContent.html",addtionalContents=addtionalContent)
 
 @bp.route("/addtionalContent/edit/<int:id>", methods=("GET", "POST"))
 def edit():

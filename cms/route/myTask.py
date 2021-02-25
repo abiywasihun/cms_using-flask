@@ -17,23 +17,32 @@ bp = Blueprint("myTask", __name__)
 Users=current_user
 @bp.route("/myTask")
 def show():
+    myTask=MyTask.query.all()
 
-    return render_template("components/showMyTask.html")
+    return render_template("components/showMyTask.html",myTask=myTask)
 
 @bp.route("/myTask/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = MyTask.query.filter_by(id=id).first()
         if hascontent is None:
             return redirect(url_for('content.show'))
-        headline = request.form['headline']
-        content = request.form['content']
-        category = request.form['category']
-        excerpt = request.form['excerpt']
-        hascontent.headline=headline
-        hascontent.content=content
-        hascontent.category=category
-        hascontent.excerpt=excerpt
+        taskTitle = request.form['taskTitle']
+        instruction = request.form['instruction']
+        dueDate = request.form['dueDate']
+        volume = request.form['volume']
+        number = request.form['number']
+        assignedTo = request.form['assignedTo']
+        assigneeID = request.form['assigneeID']
+        status = request.form['status']
+        hascontent.taskTitle=taskTitle
+        hascontent.instruction=instruction
+        hascontent.dueDate=dueDate
+        hascontent.volume=volume
+        hascontent.number=number
+        hascontent.assignedTo=assignedTo
+        hascontent.assigneeID=assigneeID
+        hascontent.status=status
         db.session.add(hascontent)
         db.session.commit()
         flash("Content Updated Succesfully")
@@ -44,7 +53,7 @@ def edit():
         return render_template("components/editMyTask.html",contents=hascontent)
 
 @bp.route("/myTask/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     myTask=MyTask.query.get_or_404(id)
     db.session.delete(myTask)
     db.session.commit()
@@ -54,13 +63,15 @@ def delete():
 @bp.route("/myTask/create", methods=("GET", "POST"))
 def create():
     if request.method == "POST":
-        headline = request.form['headline']
-        content = request.form['content']
-        category = request.form['category']
-        excerpt = request.form['excerpt']
-        current_user=Users.username
-        current_date = date.today() 
-        myTask = MyTask(headline, content, category,excerpt,current_date,current_user)
+        taskTitle = request.form['taskTitle']
+        instruction = request.form['instruction']
+        dueDate = request.form['dueDate']
+        volume = request.form['volume']
+        number = request.form['number']
+        assignedTo = request.form['assignedTo']
+        assigneeID = request.form['assigneeID']
+        status = request.form['status']
+        myTask = MyTask(taskTitle, instruction, dueDate,volume,number,assignedTo,assigneeID,status)
         db.session.add(myTask)
         db.session.commit()
         flash("Content Created Succesfully")

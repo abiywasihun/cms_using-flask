@@ -17,23 +17,35 @@ bp = Blueprint("thisWeekMinute", __name__)
 Users=current_user
 @bp.route("/thisWeekMinute")
 def show():
+    thisWeekMinute=ThisWeekMinute.query.all()
 
-    return render_template("components/showThisWeekMinute.html")
+    return render_template("components/showThisWeekMinute.html", thisWeekMinute=thisWeekMinute)
 
 @bp.route("/thisWeekMinute/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = ThisWeekMinute.query.filter_by(id=id).first()
         if hascontent is None:
             return redirect(url_for('content.show'))
-        headline = request.form['headline']
-        content = request.form['content']
         category = request.form['category']
-        excerpt = request.form['excerpt']
+        content = request.form['content']
+        number = request.form['number']
+        volume = request.form['volume']
+        author = request.form['author']
+        section = request.form['section']
+        status = request.form['status']
+        headline = request.form['headline']
+        updated_at = date.today() 
         hascontent.headline=headline
         hascontent.content=content
         hascontent.category=category
-        hascontent.excerpt=excerpt
+        hascontent.number=number
+        hascontent.volume=volume
+        hascontent.author=author
+        hascontent.section=section
+        hascontent.status=status
+        hascontent.updated_at=updated_at
+        
         db.session.add(hascontent)
         db.session.commit()
         flash("Content Updated Succesfully")
@@ -44,7 +56,7 @@ def edit():
         return render_template("components/editThisWeekMinute.html",contents=hascontent)
 
 @bp.route("/thisWeekMinute/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     thisWeekMinute=ThisWeekMinute.query.get_or_404(id)
     db.session.delete(thisWeekMinute)
     db.session.commit()
@@ -54,13 +66,18 @@ def delete():
 @bp.route("/thisWeekMinute/create", methods=("GET", "POST"))
 def create():
     if request.method == "POST":
-        headline = request.form['headline']
-        content = request.form['content']
         category = request.form['category']
-        excerpt = request.form['excerpt']
-        current_user=Users.username
-        current_date = date.today() 
-        thisWeekMinute = ThisWeekMinute(headline, content, category,excerpt,current_date,current_user)
+        content = request.form['content']
+        number = request.form['number']
+        volume = request.form['volume']
+        author = request.form['author']
+        date = date.today() 
+        draftID = 0
+        section = request.form['section']
+        status = request.form['status']
+        headline = request.form['headline']
+        updated_at = date.today() 
+        thisWeekMinute = ThisWeekMinute(category, content, number,volume,author,draftID,section,status,headline,updated_at)
         db.session.add(thisWeekMinute)
         db.session.commit()
         flash("Content Created Succesfully")
