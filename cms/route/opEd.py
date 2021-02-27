@@ -66,3 +66,18 @@ def create():
         return redirect(url_for('opEd.show'))
     else:
         return render_template("components/createopEd.html")
+@bp.route("/get/all/opEd")
+def getall():
+    try:
+        columns=OpEd.query.all()
+        return  jsonify([e.serialize() for e in columns])
+    except Exception as e:
+	    return(str(e))
+
+@bp.route("/get/opEd/<id_>")
+def get_by_id(id_):
+    try:
+        column=OpEd.query.filter_by(id=id_).first()
+        return jsonify(column.serialize())
+    except Exception as e:
+	    return(str(e))

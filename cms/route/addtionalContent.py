@@ -21,7 +21,7 @@ def show():
     return render_template("components/showAddtionalContent.html",addtionalContents=addtionalContent)
 
 @bp.route("/addtionalContent/edit/<int:id>", methods=("GET", "POST"))
-def edit():
+def edit(id):
     if request.method == "POST":
         hascontent = AddtionalContent.query.filter_by(id=id).first()
         if hascontent is None:
@@ -44,7 +44,7 @@ def edit():
         return render_template("components/editaddtionalContent.html",contents=hascontent)
 
 @bp.route("/addtionalContent/delete/<int:id>", methods=("GET", "POST"))
-def delete():
+def delete(id):
     addtionalContent=AddtionalContent.query.get_or_404(id)
     db.session.delete(addtionalContent)
     db.session.commit()
@@ -66,3 +66,18 @@ def create():
         return redirect(url_for('addtionalContent.show'))
     else:
         return render_template("components/createaddtionalContent.html")
+@bp.route("/get/all/addtionalContent")
+def getall():
+    try:
+        columns=AddtionalContent.query.all()
+        return  jsonify([e.serialize() for e in columns])
+    except Exception as e:
+	    return(str(e))
+
+@bp.route("/get/addtionalContent/<id_>")
+def get_by_id(id_):
+    try:
+        column=AddtionalContent.query.filter_by(id=id_).first()
+        return jsonify(column.serialize())
+    except Exception as e:
+	    return(str(e))

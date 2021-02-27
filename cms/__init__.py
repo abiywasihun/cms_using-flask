@@ -28,7 +28,7 @@ from cms.models.SocialMediaExcerpt import SocialMediaExcerpt
 from cms.models.SocialMediaSchedule import SocialMediaSchedule
 from cms.models.ThisWeekMinute import ThisWeekMinute
 from cms.models.WebsiteContent import WebsiteContent
-from cms.route import content, column, main_landing, auth, addtionalContent,contact,events,myTask,opEd,photo
+from cms.route import content, column, main_landing,message, auth, addtionalContent,contact,events,myTask,opEd,photo
 
 from cms.route import resource, socialMediaExcerpt,socialMediaSchedule,storyProposal,thisWeekMinute,edtionBudget,websiteContent
 
@@ -36,6 +36,7 @@ app.register_blueprint(main_landing.bp)
 app.register_blueprint(content.bp)
 app.register_blueprint(column.bp)
 app.register_blueprint(auth.bp)
+app.register_blueprint(message.bp)
 app.register_blueprint(addtionalContent.bp)
 app.register_blueprint(contact.bp)
 app.register_blueprint(edtionBudget.bp)

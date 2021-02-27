@@ -1,94 +1,46 @@
 {% extends 'base.html' %} {% block body %}
-<div class="breadcrumbs">
-    <div class="breadcrumbs-inner">
-        <div class="row m-0">
-            <div class="col-sm-4">
-                <div class="page-header float-left">
-                    <div class="page-title">
-                        <h1>Events</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="page-header float-right">
-                    <div class="page-title">
-                        <ol class="breadcrumb text-right">
-                            <li><a href="#">Dashboard</a></li>
-                            <li><a href="#">Edit</a></li>
-                            <li class="active">Events
-                            </li>
-                        </ol>
-                    </div>
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Dashboard</h4>
+                    <p class="card-description">
+                        Events
+                    </p>
+                    <form action="{{url_for('events.edit',id=contents['id'])}}" method="post" enctype="multipart/form-data" class="forms-sample">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Headline</label>
+                            <input type="text" class="form-control" value="{{contents['headline']}}" id="exampleInputName1" name="headline" placeholder="Headline...">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleTextarea1">Content</label>
+                            <textarea class="form-control" name="content" id="exampleTextarea1" rows="9">
+                                {{contents['content']}}
+                            </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleSelectGender">Category</label>
+                            <select name="category" class="form-control" id="exampleSelectGender">
+                                <option value="0">Please select</option>
+                                <option value="Agenda">Agenda</option>
+                                <option value="Feature">Feature</option>
+                                <option value="Fineline">Fineline</option>
+                                <option value="Viewpoint">View Point</option>
+                  </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleTextarea1">Excerpt</label>
+                            <textarea name="excerpt" class="form-control" id="exampleTextarea1" rows="9">
+                                {{contents['excerpt']}}
+                            </textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">Edit</button>
+                        <a href="{{url_for('events.show')}}" class="btn btn-light">Cancel</a>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="content">
-    <div class="animated fadeIn">
-
-
-        <div class="row">
-
-
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header">
-                        Update <strong>Events</strong>
-                    </div>
-                    <div class="card-body card-block">
-                        <form action="{{url_for('events.edit')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                            <div class="row form-group">
-
-                                <div class="col-12 col-md-9">
-                                    <p class="form-control-static"></p>
-                                </div>
-                            </div>
-
-                            <div class="row form-group">
-                                <div class="col col-md-3"><label for="text-input" class=" form-control-label">Headline</label></div>
-                                <div class="col-12 col-md-9"><input type="text" value="{{columns['headline']}}" id="text-input" name="headline" placeholder="Text" class="form-control"><small class="form-text text-muted">Put Headline here...</small></div>
-                            </div>
-
-                            <div class="row form-group">
-                                <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Content</label></div>
-                                <div class="col-12 col-md-9"><textarea name="content" value="" id="textarea-input" rows="9" placeholder="Content..." class="form-control">{{columns['content']}}</textarea></div>
-                            </div>
-
-                            <div class="row form-group">
-                                <div class="col col-md-3"><label for="select" class=" form-control-label">Category</label></div>
-                                <div class="col-12 col-md-9">
-                                    <select name="category" id="select" class="form-control">
-                                        <option value="0">Please select</option>
-                                        <option value="Agenda">Agenda</option>
-                                        <option value="Feature">Feature</option>
-                                        <option value="Fineline">Fineline</option>
-                                        <option value="Viewpoint">View Point</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row form-group">
-                                <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Excerpt</label></div>
-                                <div class="col-12 col-md-9"><textarea name="excerpt" value="" id="textarea-input" rows="9" placeholder="Excerpt..." class="form-control">{{columns['excerpt']}}</textarea></div>
-                            </div>
-                            <div class="form-actions form-group">
-                                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-
-
-    </div>
-    <!-- .animated -->
-</div>
-<!-- .content -->
-
-<div class="clearfix"></div>
 {% endblock %}
